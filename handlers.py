@@ -13,7 +13,7 @@
 
 from telegram import Update
 from telegram.ext import ContextTypes
-from database import add_stock, remove_stock, get_user_portfolio, save_user 
+from database import add_stock, remove_stock, get_user_portfolio
 from price_fetcher import get_current_price, validate_symbol
 
 
@@ -39,12 +39,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"━━━━━━━━━━━━━━━━━━",
         parse_mode="Markdown"
     )
-    user_id = str(update.message.from_user.id)   # ← capture this!
-    
-    # Save user to DB so scheduler knows where to send alerts
-    save_user(user_id, name)                      # ← save this!
-    
-    await update.message.reply_text(...)
 
 
 # ============================================================
