@@ -1,6 +1,4 @@
-import asyncio
 import logging
-from telegram import Bot
 from telegram.ext import ApplicationBuilder, CommandHandler
 from config import BOT_TOKEN
 from database import init_db
@@ -10,19 +8,12 @@ from handlers import start, add, remove, portfolio, price, stop
 logging.basicConfig(level=logging.INFO)
 
 
-async def clear_webhook_and_updates():
-    """
-    Clear any existing webhook and pending updates before starting.
-    This prevents the Conflict error when redeploying.
-    """
-    bot = Bot(token=BOT_TOKEN)
-    async with bot:
-        # Delete webhook (in case one is set)
-        await bot.delete_webhook(drop_pending_updates=True)
-        print("✅ Webhook cleared.")
-
-
 async def post_init(application):
+    """Runs after event loop starts — clear webhook then start scheduler."""
+    # Clear any existing webhook/connections before polling
+    await application.bot.delete_webhook(drop_pending_updates=True)
+    print("✅ Webhook cleared.")
+
     start_scheduler(application.bot)
     print("✅ Scheduler started.")
 
@@ -32,9 +23,6 @@ def main():
 
     init_db()
     print("✅ Database initialized.")
-
-    # Clear webhook BEFORE starting polling — prevents Conflict error
-    asyncio.run(clear_webhook_and_updates())
 
     app = (
         ApplicationBuilder()
@@ -53,10 +41,7 @@ def main():
     print("✅ Handlers registered.")
 
     print("🤖 Bot is running. Press Ctrl+C to stop.\n")
-    app.run_polling(
-        drop_pending_updates=True,
-        allowed_updates=["message"]
-    )
+    app.run_polling(drop_pending_updates=True)
 
 
 if __name__ == "__main__":
