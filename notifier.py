@@ -34,13 +34,13 @@ def build_stoploss_alert(symbol: str, current_price: float,
     )
 
 
-async def send_alert(bot: object, telegram_id: str, message: str) -> None:
+async def send_alert(bot, telegram_id: str, message: str) -> None:
     try:
-        await bot.send_message(  # type: ignore
+        await bot.send_message(
             chat_id=telegram_id,
             text=message,
             parse_mode="Markdown"
         )
         print(f"[Notifier] Alert sent to {telegram_id}")
     except Exception as e:
-        print(f"[Notifier] Failed to send alert to {telegram_id}: {e}")s
+        print(f"[Notifier] Failed to send alert to {telegram_id}: {e}")
