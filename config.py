@@ -19,9 +19,3 @@ DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///stock_alerts.db")
 
 # Alpha Vantage API key (free at alphavantage.co)
 ALPHA_VANTAGE_KEY = os.getenv("ALPHA_VANTAGE_KEY", "demo")
-
-
-
-
-
-

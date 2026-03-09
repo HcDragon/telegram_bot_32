@@ -53,7 +53,7 @@ async def check_all_prices(bot):
             print(f"[Scheduler] Could not fetch price for {symbol}, skipping.")
             continue
 
-        print(f"[Scheduler] {symbol}: ${current_price} | Target: ${target} | SL: ${stop_loss}")
+        print(f"[Scheduler] {symbol}: ₹{current_price} | Target: ₹{target} | SL: ₹{stop_loss}")
 
         # --- Check TARGET hit ---
         if current_price >= target:
