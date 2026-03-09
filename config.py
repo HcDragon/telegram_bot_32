@@ -1,24 +1,27 @@
-# ============================================================
-# config.py — Central configuration file
-# ============================================================
-# This file loads environment variables from a .env file.
-# Keeping secrets (like your bot token) out of your code is 
-# a best practice — never hardcode tokens in production!
-# ============================================================
-
 import os
-from dotenv import load_dotenv
 
-# Load variables from .env file into the environment
-load_dotenv()
+# Load .env file only if it exists (local development)
+# On Railway, env vars are injected automatically — no .env file needed
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
-# --- Telegram ---
-BOT_TOKEN = os.getenv("BOT_TOKEN", "8783617175:AAFFMaxr5K4pCTXTWB4yJKU_74BsTkj6AbE")
+# Telegram
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-# --- Price Check Interval ---
-# How often (in minutes) the bot checks stock prices
+# Price check interval in minutes
 CHECK_INTERVAL_MINUTES = int(os.getenv("CHECK_INTERVAL_MINUTES", 5))
 
-# --- Database ---
-# SQLite database file path (auto-created on first run)
+# Database
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///stock_alerts.db")
+
+# Alpha Vantage API key (free at alphavantage.co)
+ALPHA_VANTAGE_KEY = os.getenv("ALPHA_VANTAGE_KEY", "demo")
+
+
+
+
+
+
